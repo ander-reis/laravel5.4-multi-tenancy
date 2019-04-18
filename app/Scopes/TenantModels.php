@@ -3,6 +3,7 @@
 namespace App\Scopes;
 
 
+use App\Tenant\TenantManager;
 use Illuminate\Database\Eloquent\Model;
 
 trait TenantModels
@@ -16,8 +17,13 @@ trait TenantModels
 
         // evento para incluir account_id na hora de criar categoria
         static::creating(function(Model $model){
-            $accountId = \Auth::user()->account_id;
-            $model->account_id = $accountId;
+
+            /** @var TenantManager $tenantManager */
+            $tenantManager = app(TenantManager::class);
+            if ($tenantManager->getTenant()) {
+                $accountId = $tenantManager->getTenant()->id;
+                $model->account_id = $accountId;
+            }
         });
     }
 }

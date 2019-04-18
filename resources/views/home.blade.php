@@ -16,7 +16,7 @@
 
                     You are logged in!
 
-                    <a href="{{ route('categories.index') }}" class="btn btn-primary">Categorias</a>
+                    <a href="{{ routeTenant('categories.index') }}" class="btn btn-primary">Categorias</a>
                 </div>
             </div>
         </div>

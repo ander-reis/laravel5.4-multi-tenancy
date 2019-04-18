@@ -41,7 +41,7 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         Category::create($request->all());
-        return redirect()->route('categories.index');
+        return redirect()->routeTenant('categories.index');
     }
 
     /**
@@ -61,7 +61,7 @@ class CategoriesController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($account, Category $category)
     {
         return view('categories.edit', compact('category'));
     }
@@ -73,10 +73,10 @@ class CategoriesController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $account, Category $category)
     {
         $category->update($request->all());
-        return redirect()->route('categories.index');
+        return redirect()->routeTenant('categories.index');
     }
 
     /**
@@ -85,9 +85,9 @@ class CategoriesController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($account, Category $category)
     {
         $category->delete();
-        return redirect()->route('categories.index');
+        return redirect()->routeTenant('categories.index');
     }
 }

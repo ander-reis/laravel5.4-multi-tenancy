@@ -4,7 +4,7 @@
     <div class="container">
         <h3>Nova Categoria</h3>
 
-        {!! Form::open(['url' => route('categories.store'), 'class' => 'form']) !!}
+        {!! Form::open(['url' => routeTenant('categories.store'), 'class' => 'form']) !!}
 
         @include('categories._form')
 

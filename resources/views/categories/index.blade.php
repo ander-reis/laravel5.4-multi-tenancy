@@ -5,7 +5,7 @@
         <div class="row">
             <h3>Categorias</h3>
 
-            <a href="{{ route('categories.create') }}" class="btn btn-default">Nova Categoria</a>
+            <a href="{{ routeTenant('categories.create') }}" class="btn btn-default">Nova Categoria</a>
 
             <table class="table">
                 <thead>
@@ -21,7 +21,7 @@
                         <th scope="row">{{ $category->id }}</th>
                         <td>{{ $category->name }}</td>
                         <td>
-                            <a href="{{ route('categories.edit', ['id' => $category->id]) }}" class=" btn btn-default btn-sm">
+                            <a href="{{ routeTenant('categories.edit', ['id' => $category->id]) }}" class=" btn btn-default btn-sm">
                                 Editar
                             </a>
                         </td>

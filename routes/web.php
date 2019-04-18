@@ -15,8 +15,34 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+$appUrl = config('app.url');
+$domain = parse_url($appUrl)['host'];
+$tenantParam = config('tenant.route_param');
+Route::domain("{{$tenantParam}}.$domain")
+    ->middleware('tenant')
+    ->group(function () {
 
-Route::get('/home', 'HomeController@index')->name('home');
+        Auth::routes();
 
-Route::resource('categories', 'CategoriesController');
+        Route::get('/test', function ($tenant) {
+            return 'Hello World! ' . $tenant;
+        });
+
+        Route::prefix('/admin')
+            ->middleware('auth:web')
+            ->group(function () {
+            Route::get('/', function () {
+                return 'Admin';
+            });
+        });
+
+        Route::prefix('/app')
+            ->middleware('auth:web_tenants')
+            ->group(function () {
+            Route::resource('categories', 'CategoriesController');
+            Route::get('/', function () {
+                return 'App multi tenancy';
+            });
+        });
+        Route::get('/home', 'HomeController@index')->name('home');
+    });

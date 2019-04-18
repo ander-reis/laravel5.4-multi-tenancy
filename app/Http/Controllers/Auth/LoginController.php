@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Tenant\TenantManager;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -35,5 +37,19 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function credentials(Request $request)
+    {
+        $data = $request->only($this->username(), 'password');
+
+        /** @var TenantManager $tenantManager */
+        $tenantManager = app(TenantManager::class);
+
+        if ($tenantManager->getTenant() && !$tenantManager->isSubdomainExcept()) {
+            $data['account_id'] = $tenantManager->getTenant()->id;
+        }
+
+        return $data;
     }
 }
